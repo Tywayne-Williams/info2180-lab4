@@ -62,11 +62,39 @@ $superheroes = [
       "biography" => "Notably powerful, Wanda Maximoff has fought both against and with the Avengers, attempting to hone her abilities and do what she believes is right to help the world.",
   ], 
 ];
+// Get the search query from the URL.
+$query = trim($_GET['query']?? '');
+
+if ($query !== ''){
+    $found = false;
+
+    foreach ($superheroes as $superhero){
+        if(
+            stripos($superhero['name'], $query) !== false ||
+            stripos($superhero['alias'],$query) !== false
+        ){
+            $found = true;
+            ?>
+            <h3><?= htmlspecialchars($superhero['alias'], ENT_QUOTES, 'UTF-8'); ?></h3>
+            <h4><?= htmlspecialchars($superhero['name'], ENT_QUOTES, 'UTF-8'); ?></h4>
+            <p><?= htmlspecialchars($superhero['biography'], ENT_QUOTES, 'UTF-8'); ?></p>
+            <?php
+            break;
+        }
+    }
+    
+    if (!$found){
+        echo 'Superhero not found';
+    }
+} else {
+
 
 ?>
-
 <ul>
 <?php foreach ($superheroes as $superhero): ?>
-  <li><?= $superhero['alias']; ?></li>
+  <li><?htmlspecialchars($superhero['alias'], ENT_QUOTES, 'UTF-8'); ?></li>
 <?php endforeach; ?>
 </ul>
+<?php
+
+}

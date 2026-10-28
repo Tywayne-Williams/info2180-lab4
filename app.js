@@ -1,21 +1,30 @@
-document.addEventListener("DOMContentLoaded", function(){
-    const searchButton = document.querySelector("#search-button");
 
-    searchButton.addEventListener("click", function()
-    {
-        fetch("superheroes.php")
-        .then(function(response){
-            if (!response.ok){
-                throw new Error("Could not retrieve superheroes.");
-                
-            }
-            return response.text();
-        })
-        .then(function(data){
-            alert (data);
-        })
-        .catch(function (error){
-            alert("An error occured: " + error.message);
-        });
+document.addEventListener("DOMContentLoaded", function () {
+    const searchForm = document.querySelector("#search-form");
+    const queryInput = document.querySelector("#query");
+    const resultDiv = document.querySelector("#result");
+
+    searchForm.addEventListener("submit", function (event) {
+        event.preventDefault();
+
+        const query = queryInput.value.trim();
+        const url = "superheroes.php?query=" + encodeURIComponent(query);
+
+        resultDiv.textContent = "Searching...";
+
+        fetch(url)
+            .then(function (response) {
+                if (!response.ok) {
+                    throw new Error("HTTP error: " + response.status);
+                }
+                return response.text();
+            })
+            .then(function (data) {
+                resultDiv.innerHTML = data;
+            })
+            .catch(function (error) {
+                resultDiv.textContent = "Error: " + error.message;
+                console.error(error);
+            });
     });
 });

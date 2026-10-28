@@ -10,8 +10,15 @@
 <body>
     <main class="container">
         <h1>Avengers Character Search</h1>
-        <p>Click the button below to retrieve the list of superheroes.</p>
-        <button type="button" name="search-button" id="search-button">Search</button>
+        <p>Enter a superhero's name or alias, or leave the field blank to see the full list.</p>
+        
+        <form id="search-form">
+            <label for="query">Superhero name of alias:</label>
+            <input type="'text" name="query" id="query" placeholder="e.g. Thor">
+            <button type="submit">Search</button>
+        </form>
+        
+        <div id="result"></div>
     </main>
     
 </body>
